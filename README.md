@@ -28,7 +28,6 @@ Some CPUs, such as the v831, come with built-in peripherals (i.e. DMA controller
  **User’s Manual: V832 Hardware (Preliminary)** ([link](https://www.renesas.com/us/en/document/mah/v832tm-hardware-preliminary))
 ## TODOs
 ### v830
-Add .idx for instruction documentation.
 
 Cleanup.
 
@@ -37,5 +36,4 @@ Determine e_machine value in .ELF files, if any.
 
 Implement bit string instructions.
 
-Add .idx for instruction documentation.
 
