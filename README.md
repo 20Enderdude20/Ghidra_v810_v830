@@ -10,7 +10,7 @@ These modules were made by taking the v850 modules that come with Ghidra as a te
 
 `$(GHIDRA_HOME)\support\sleigh.bat data\languages\V830.slaspec`
 
-2. Copy the `V810` folder to:
+2. Copy the `V800` folder to:
 `$(GHIDRA_HOME)\Ghidra\Processors\`
 ## Hardware Documentation
 Some CPUs, such as the v831, come with built-in peripherals (i.e. DMA controller, UART, CSI, Timers, etc.). Therefore, if hardware documentation for a CPU in these families is available (with or without peripherals), they will be listed below:
