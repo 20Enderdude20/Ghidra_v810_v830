@@ -132,77 +132,61 @@
 	call [PC];
 }
 
-define pcodeop __movbsu;
 # MOVBSU [reg2] - 011111rrrrr01011
-:movbsu is op1015=0x1f & R0509 & op0004=0xB
+:movbsu is op1015=0x1f & R0509 & op0004=0xb
 {
-	__movbsu();
-#	r27 = r27 & 0x1f;
-#	r26 = r26 & 0x1f;
-#	local counter = 0;
-#	local swo = 0;
-#	local dwo = 0;
-#	local sbo = r27;
-#	local dbo = r26;
-#	<loop>
-#	if (counter >= r28)
-#		goto <end>
-#	local sword = *:4 (r30 + swo);
-#	local dword = *:4 (r29 + dwo);
-#	local sbit = (sword & (0x1 << sbo)) >> sbo;
-#	local dbit = (dword)
-#	
-#	<end>
-#	call [PC];
+	var:4 = 0xb;
+	bitsop (var, 0x7fffffff);
 }
 
-define pcodeop __notbsu;
 # NOTBSU [reg2] - 011111rrrrr01111
-:notbsu is op1015=0x1f & R0509 & op0004=0xF
+:notbsu is op1015=0x1f & R0509 & op0004=0xf
 {
-	__notbsu();
+	var:4 = 0xf;
+	bitsop (var, 0x7fffffff);
 }
 
-define pcodeop __andbsu;
 # ANDBSU [reg2] - 011111rrrrr01001
 :andbsu is op1015=0x1f & R0509 & op0004=0x9
 {
-	__andbsu();
+	var:4 = 0x9;
+	bitsop (var, 0xffffffff);
 }
 
-define pcodeop __andnbsu;
 # ANDNBSU [reg2] - 011111rrrrr01101
-:andnbsu is op1015=0x1f & R0509 & op0004=0xD
+:andnbsu is op1015=0x1f & R0509 & op0004=0xd
 {
-	__andnbsu();
+	var:4 = 0xd;
+	bitsop (var, 0xffffffff);
 }
 
-define pcodeop __orbsu;
 # ORBSU [reg2] - 011111rrrrr01000
 :orbsu is op1015=0x1f & R0509 & op0004=0x8
 {
-	__orbsu();
+	var:4 = 0x8;
+	bitsop (var, 0xffffffff);
 }
 
-define pcodeop __ornbsu;
 # ORNBSU [reg2] - 011111rrrrr01100
-:ornbsu is op1015=0x1f & R0509 & op0004=0xC
+:ornbsu is op1015=0x1f & R0509 & op0004=0xc
 {
-	__ornbsu();
+	var:4 = 0xc;
+	bitsop (var, 0xffffffff);
 }
 
 define pcodeop __xorbsu;
 # XORBSU [reg2] - 011111rrrrr01010
-:xorbsu is op1015=0x1f & R0509 & op0004=0xA
+:xorbsu is op1015=0x1f & R0509 & op0004=0xa
 {
-	__xorbsu();
+	var:4 = 0xa;
+	bitsop (var, 0xffffffff);
 }
 
-define pcodeop __xornbsu;
 # XORNBSU [reg2] - 011111rrrrr01110
-:xornbsu is op1015=0x1f & R0509 & op0004=0xE
+:xornbsu is op1015=0x1f & R0509 & op0004=0xe
 {
-	__xornbsu();
+	var:4 = 0xe;
+	bitsop (var, 0xffffffff);
 }
 @endif
 

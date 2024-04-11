@@ -316,3 +316,99 @@ macro float2int(var1, var2)
 	var1 = res;
 }
 
+
+##### Bit string Operation Macros #####
+
+macro bitsop(select, dmask)
+{
+	r27 = r27 & 0x1f;
+	r26 = r26 & 0x1f;
+	local counter:4 = 0;
+	local swo:4 = 0;
+	local dwo:4 = 0;
+	local sbo = r27;
+	local dbo = r26;
+	local sword = *:4 (r30 + swo);
+	local dword = *:4 (r29 + dwo);
+	local resword:4 = 0;
+	local unaff:4 = 0;
+	<setbitsandinc>
+	if (counter >= r28)
+		goto <end>;
+	local smasked:4 = (sword & (1 << sbo)) >> sbo;
+	local dmasked:4 = dword & (dmask >> (31 - dbo));
+	if (select == 0xb)
+		goto <mov>;
+	if (select == 0xe)
+		goto <not>;
+	if (select == 0x9)
+		goto <and>;
+	if (select == 0xd)
+		goto <andn>;
+	if (select == 0x8)
+		goto <or>;
+	if (select == 0xc)
+		goto <orn>;
+	if (select == 0xa)
+		goto <xor>;
+	if (select == 0xe)
+		goto <xorn>;
+	<ret3>
+	counter = counter + 1;
+	sbo = sbo + 1;
+	dbo = dbo + 1;
+	if (sbo > 0x1f)
+		goto <incsword>;
+	<ret1>
+	if (dbo > 0x1f)
+		goto <incdword>;
+	<ret2>
+	goto <setbitsandinc>;
+
+	<incsword>
+	sbo = 0;
+	swo = swo + 4;
+	sword = *:4 (r30 + swo);
+	goto <ret1>;
+
+	<incdword>
+	dbo = 0;
+	dwo = dwo + 4;
+	*:4 (r29 + dwo) = resword;
+	dword = *:4 (r29 + dwo);
+	goto <ret2>;
+
+	<end>
+	*:4 (r29 + dwo) = resword;
+	call [PC];
+
+	<mov>
+	resword = resword | (dmasked | (smasked << dbo));
+	goto <ret3>;
+	<not>
+	resword = resword | (dmasked | (~smasked << dbo));
+	goto <ret3>;
+	<and>
+	unaff = dmasked;
+	resword = resword | dmasked | (((dmasked & (smasked << dbo)) >> dbo) << dbo);
+	goto <ret3>;
+	<andn>
+	unaff = dmasked;
+	resword = resword | dmasked | (((dmasked & (~smasked << dbo)) >> dbo) << dbo);
+	goto <ret3>;
+	<or>
+	resword = resword | (dmasked | (smasked << dbo));
+	goto <ret3>;
+	<orn>
+	resword = resword | (dmasked | (~smasked << dbo));
+	goto <ret3>;
+	<xor>
+	unaff = dmasked;
+	resword = resword | dmasked | (((dmasked ^ (smasked << dbo)) >> dbo) << dbo);
+	goto <ret3>;
+	<xorn>
+	unaff = dmasked;
+	resword = resword | dmasked | (((dmasked ^ (~smasked << dbo)) >> dbo) << dbo);
+	goto <ret3>;
+
+}
