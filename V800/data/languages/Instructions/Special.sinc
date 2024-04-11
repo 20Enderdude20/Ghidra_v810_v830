@@ -174,7 +174,6 @@
 	bitsop (var, 0xffffffff);
 }
 
-define pcodeop __xorbsu;
 # XORBSU [reg2] - 011111rrrrr01010
 :xorbsu is op1015=0x1f & R0509 & op0004=0xa
 {
