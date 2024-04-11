@@ -36,6 +36,5 @@ Cleanup.
 ### v810
 Determine e_machine value in .ELF files, if any.
 
-Implement bit string instructions.
 
 
