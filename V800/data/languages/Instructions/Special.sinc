@@ -1,7 +1,11 @@
+# V830 Family:
+# (5) Branch instructions
+# (11) Special instructions
 
-# (13) Branch instructions
-# (15) Special instructions
-
+# V810 Family:
+# (12) Bit String Instructions
+# (4) Branch instructions
+# (7) Special instructions
 
 
 @if defined(V810)

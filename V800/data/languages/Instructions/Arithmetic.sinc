@@ -1,10 +1,14 @@
+# V830 Family:
 # (3) Multiply instructions
-# (4) Multiply-accumulate instructions
-# (5) Arithmetic instructions
-# (7) Saturated operation instructions
-# (11) Divide instructions
-# (12) High-speed divide instructions
+# (3) Multiply-accumulate instructions
+# (12) Arithmetic instructions
+# (4) Saturated operation instructions
+# (2) Divide instructions
 
+# V810 Family:
+# (2) Multiply instructions
+# (10) Arithmetic instructions
+# (2) Divide instructions
 
 
 #####################################################

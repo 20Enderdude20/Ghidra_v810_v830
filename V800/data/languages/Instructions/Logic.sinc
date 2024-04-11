@@ -1,8 +1,8 @@
-# (6) Conditional arithmetic instructions
-# (8) Logical instructions
-# (14) Bit manipulation instructions
+# V830 Family:
+# (7) Logical instructions
 
-
+# V810 Family:
+# (7) Logical instructions
 
 
 #####################################################
