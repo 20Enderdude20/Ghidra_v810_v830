@@ -17,7 +17,9 @@ Some CPUs, such as the v831, come with built-in peripherals (i.e. DMA controller
 ### v810 Family
 **User's Manual: V805, V810 Hardware** ([link](http://goliathindustries.com/vb/download/cpu/U10661EJ5V0UM00.pdf))
 
-(V820's existence is alluded to in various manual documents but no datasheets nor manuals have been found at this moment.)
+(V820 has its datasheet archived but only in Japanese. As of now, the user's manual doesn't appear to have been archived.)
+
+**UPD70742(V820) データ・シート**([link](https://www.renesas.com/jp/ja/document/dst/711481))
 
 **User’s Manual: V821 Hardware** ([link](https://www.renesas.com/us/en/document/mah/v821tm-hardware))
 ### v830 Family
