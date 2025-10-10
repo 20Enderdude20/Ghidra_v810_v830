@@ -28,7 +28,7 @@
 :cvt.sw R0004, R0509 is op1015=0x3e & R0004 & R0509; op2631=0x3
 {
 	# set_FRO(R0004);
-	float2int(R0509, R0004);
+	R0509 = trunc(R0004);
 	set_general_flags_neg_f(R0509, 0);
 	set_FPR2(R0509, R0004);
 }
