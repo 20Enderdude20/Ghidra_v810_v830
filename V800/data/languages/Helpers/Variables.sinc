@@ -8,7 +8,7 @@ attach variables [ _R0004 _R0509 _R1115 _R2731 _R1620]
   r0  r1  r2  sp  gp  tp  r6  r7  r8  r9 
   r10 r11 r12 r13 r14 r15 r16 r17 r18 r19 
   r20 r21 r22 r23 r24 r25 r26 r27 r28 r29 
-  mp  lp 
+  r30  lp 
 ];
 
 attach variables [ SR0004 SR1115 ]
@@ -37,7 +37,7 @@ attach variables [ SR0004 SR1115 ]
 ];
 @endif
 
-# attach variables [op0_1720] [r0 r2 gp r6 r8 r10 r12 r14 r16 r18 r20 r22 r24 r26 r28 mp];
+# attach variables [op0_1720] [r0 r2 gp r6 r8 r10 r12 r14 r16 r18 r20 r22 r24 r26 r28 r30];
 # attach variables [op1_1720] [r1 sp tp r7 r9 r11 r13 r15 r17 r19 r21 r23 r25 r27 r29 lp];
 
 

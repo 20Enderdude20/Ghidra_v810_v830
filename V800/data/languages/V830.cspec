@@ -55,7 +55,7 @@
         <register name="r27"/>
         <register name="r28"/>
         <register name="r29"/>
-        <register name="mp"/>
+        <register name="r30"/>
         <register name="lp"/>
         <register name="sp"/>
         <register name="gp"/>

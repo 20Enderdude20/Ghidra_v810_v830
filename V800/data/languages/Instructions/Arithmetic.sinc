@@ -20,10 +20,11 @@
 :mul R0004, R0509 is op1015=0x08 & R0004 & R0509
 {
 	local res:8 = sext(R0509) * sext(R0004);
-	R0509 = res:4;
 	shift_right_arith(res, res, 32);
-	mp = res:4;
+	r30 = res:4;
+	R0509 = sext(R0509) * sext(R0004);
 }
+
 
 @if defined(V830)
 define pcodeop __saturate;
@@ -41,9 +42,9 @@ define pcodeop __saturate;
 :mulu R0004, R0509 is op1015=0x0A & R0004 & R0509
 {
 	local res:8 = zext(R0509) * zext(R0004);
-	R0509 = res:4;
 	shift_right_arith(res, res, 32);
-	mp = res:4;
+	r30 = res:4;
+	R0509 = zext(R0509) * zext(R0004);
 }
 
 
@@ -235,8 +236,8 @@ define pcodeop __saturate;
 	$(OV) = ((R0509 == 0x80000000 && R0004 == 0xFFFFFFFF) || R0004 == 0x0);
 	set_Z(R0509);
 	set_S(R0509);
+	r30 = mod;
 	R0509 = quot;
- 	mp = mod;
 }
 
 # DIVU reg1, reg2 - 001011rrrrrRRRRR
@@ -247,6 +248,6 @@ define pcodeop __saturate;
 	$(OV) = (R0004 == 0);
 	set_Z(R0509);
 	set_S(R0509);
+	r30 = mod;
 	R0509 = quot;
- 	mp = mod;
 }
