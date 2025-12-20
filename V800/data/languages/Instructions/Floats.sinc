@@ -1,5 +1,6 @@
 # V810 Family:
 # (8) Float instructions
+# (4) Special Nintendo instructions
 
 
 
@@ -70,10 +71,39 @@ define pcodeop __truncate;
 {
 	set_FRO(R0004);
 	__truncate(R0004);
-	float2int(R0509, R0004);
+	R0509 = trunc(R0004);
 	set_general_flags_neg_f(R0509, 0);
 	set_FPR2(R0509, R0004);
 }
 
+#####################################################
+#####		       Nintendo Special				#####
+#####################################################
 
 
+# MPYHW reg1, reg2 - 111110rrrrrRRRRR|001100xxxxxxxxxx
+:mpyhw R0004, R0509 is op1015=0x3e & R0004 & R0509; op2631=0xc
+{
+	local mpyer = R0004 & 0x1ffff;
+	mpyer = mpyer - ((R0004 & 0xffff) << 1);
+	R0509 = R0509 * mpyer;
+}
+
+define pcodeop __reversebits;
+# REV reg1, reg2 - 111110rrrrrRRRRR|001010xxxxxxxxxx
+:rev R0004, R0509 is op1015=0x3e & R0004 & R0509; op2631=0xa
+{
+	R0509 = __reversebits(R0004);
+}
+
+# XB reg1, reg2 - 111110rrrrrRRRRR|001000xxxxxxxxxx
+:xb R0004, R0509 is op1015=0x3e & R0004 & R0509; op2631=0x8
+{
+	R0509 = (R0509 & 0xFFFF0000) | ((R0509 << 8) & 0xFF00) | ((R0509 >> 8) & 0x00FF);
+}
+
+# XH reg1, reg2 - 111110rrrrrRRRRR|001001xxxxxxxxxx
+:xh R0004, R0509 is op1015=0x3e & R0004 & R0509; op2631=0x9
+{
+	R0509 = (R0509 s>> 16 ) | (R0509 << 16) ;
+}

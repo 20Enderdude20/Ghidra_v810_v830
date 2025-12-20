@@ -4,6 +4,9 @@
         since this is for the V800 family in general. -->
         <constraint primary="36"   processor="V810"                      size="32" />
         <constraint primary="36"   processor="V830"                      size="32" />
+        <!--e_machine value 36993 (0x9081) observed in ELF files compiled under unofficial patches GCC 2 to 4 toolchain for v810 and v830 (https://github.com/jbrandwood/v810-gcc).-->
+        <constraint primary="36993"   processor="V810"                      size="32" />
+        <constraint primary="36993"   processor="V830"                      size="32" />
         <!--e_machine value 28868 (0x70C4) observed in several ELF files compiled under Metrowerks Codewarrior v2.2.1 for the V831 CPU.-->
         <constraint primary="28868"  processor="V830"                    size="32" />
     </constraint>

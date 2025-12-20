@@ -6,6 +6,7 @@
 # (12) Bit String Instructions
 # (4) Branch instructions
 # (7) Special instructions
+# (2) Special Nintendo Instructions
 
 
 @if defined(V810)
@@ -288,6 +289,24 @@ define pcodeop __disable_irq;
 # EI - 010110uuuuuuuuuu
 define pcodeop __enable_irq;
 :ei is op1015=0x16
+{
+	$(ID) = 0;
+	__enable_irq();
+}
+@endif
+
+@if defined(V810)
+# SEI - 011110uuuuuuuuuu (Virtual Boy NVC only)
+define pcodeop __disable_irq;
+:sei is op1015=0x1E
+{
+	$(ID) = 1;
+	__disable_irq();
+}
+
+# CLI - 010110uuuuuuuuuu (Virtual Boy NVC only)
+define pcodeop __enable_irq;
+:cli is op1015=0x16
 {
 	$(ID) = 0;
 	__enable_irq();
