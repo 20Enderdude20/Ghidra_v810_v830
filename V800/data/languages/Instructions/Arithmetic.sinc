@@ -234,9 +234,17 @@ define pcodeop __saturate;
 {
 	local quot:4 = R0509 s/ R0004;
 	local mod:4 = R0509 s% R0004;
+	if (R0509 == 0x80000000 && R0004 == 0xFFFFFFFF)
+	goto <overflow>;
+	goto <end>;
+	<overflow>
+	quot = R0509;
+	mod = 0;
+	$(OV) = 1;
+	<end>
+	r30 = mod;
 	R0509 = quot;
 	set_OV0_S_Z(R0509);
-	r30 = mod;
 	
 }
 
@@ -245,8 +253,8 @@ define pcodeop __saturate;
 {
 	local quot:4 = R0509 / R0004;
 	local mod:4 = R0509 % R0004;
-	R0509 = quot;
-	set_OV0_S_Z(R0509);
 	r30 = mod;
+	R0509 = quot;
+	set_OV0_S_Z(quot);
 	
 }
