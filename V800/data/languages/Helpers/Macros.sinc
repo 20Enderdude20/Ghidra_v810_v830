@@ -32,7 +32,25 @@ macro set_CY_neg2(var1, var2, var3)
 	$(CY) = (var1 < var23);
 }
 
-
+@if defined(V830)
+macro saturate(res8)
+{
+	if (res8 s> 0x7fffffff)
+		goto <max>;
+	if (res8 s< 0xffffffff80000000)
+		goto <min>;
+	goto <end>;
+	<max>
+	$(SAT) = 1;
+	res8 = 0x7fffffff;
+	goto <end>;
+	<min>
+	$(SAT) = 1;
+	res8 = 0x80000000;
+	<end>
+	res8 = res8;
+}
+@endif
 
 ##### Overflow-Flag #####
 
@@ -126,7 +144,7 @@ macro set_FPR2(var1, var2)
 
 macro set_general_flags_pos(var1, var2)
 {
-	local res = var1 + var2;
+	local res:4 = var1 + var2;
 	set_CY_pos(var1, var2);
 	set_OV_pos(var1, var2);
 	set_S(res);
@@ -135,7 +153,7 @@ macro set_general_flags_pos(var1, var2)
 
 macro set_general_flags_neg(var1, var2)
 {
-	local res = var1 - var2;
+	local res:4 = var1 - var2;
 	set_CY_neg(var1, var2);
 	set_OV_neg(var1, var2);
 	set_S(res);
@@ -271,26 +289,6 @@ macro SearchLeft(res, var, char)
 	<end>
 }
 
-macro saturate(var) 
-{
- 	if (var s> 0x7FFFFFFF) 
-         	goto <pos_sat>;
-    
- 	if (var s< -0x80000000) 
-         	goto <neg_sat>;
-
- 	goto <end>;
-
- 	<pos_sat> 
-     var =  0x7FFFFFFF; 
-     goto <end>;
-
- 	<neg_sat> 
-     var = -0x80000000; 
-     goto <end>;
-	
-     <end>
- }
 
 
 ##### Float-Macros #####

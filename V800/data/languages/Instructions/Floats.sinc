@@ -84,8 +84,7 @@ define pcodeop __truncate;
 # MPYHW reg1, reg2 - 111110rrrrrRRRRR|001100xxxxxxxxxx
 :mpyhw R0004, R0509 is op1015=0x3e & R0004 & R0509; op2631=0xc
 {
-	local mpyer = R0004 & 0x1ffff;
-	mpyer = mpyer - ((R0004 & 0xffff) << 1);
+	local mpyer = (((R0004 << 15) s>> 15) & 0xFFFF0000) | (R0004 & 0xFFFF);
 	R0509 = R0509 * mpyer;
 }
 

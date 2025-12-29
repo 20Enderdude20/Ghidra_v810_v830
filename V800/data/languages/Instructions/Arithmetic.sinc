@@ -20,9 +20,11 @@
 :mul R0004, R0509 is op1015=0x08 & R0004 & R0509
 {
 	local res:8 = sext(R0509) * sext(R0004);
-	shift_right_arith(res, res, 32);
-	r30 = res:4;
+	local res2:8 = res >> 32;
+	r30 = res2:4;
 	R0509 = sext(R0509) * sext(R0004);
+	set_OV0_S_Z(R0509);
+	$(OV) = (res != (sext(res:4)));
 }
 
 
@@ -32,9 +34,8 @@ define pcodeop __saturate;
 :muli s1631, R0004, R0509 is op1015=0x32 & R0509 & R0004; s1631
 {
 	local res:8 = sext(R0004) * s1631; # how do you indicate saturation?
-	$(SAT) = $(SAT) || $(OV);
+	saturate(res);
 	R0509 = res:4;
-	__saturate(R0509);
 }
 @endif
 
@@ -42,9 +43,11 @@ define pcodeop __saturate;
 :mulu R0004, R0509 is op1015=0x0A & R0004 & R0509
 {
 	local res:8 = zext(R0509) * zext(R0004);
-	shift_right_arith(res, res, 32);
-	r30 = res:4;
+	local res2:8 = res >> 32;
+	r30 = res2:4;
 	R0509 = zext(R0509) * zext(R0004);
+	set_OV0_S_Z(R0509);
+	$(OV) = (res != (zext(res:4)));
 }
 
 
@@ -57,7 +60,7 @@ define pcodeop __saturate;
 # ADD reg1, reg2 - 000001rrrrrRRRRR
 :add R0004, R0509 is op1015=0x01 & R0004 & R0509 
 {
-	set_general_flags_pos(R0509, R0509);
+	set_general_flags_pos(R0004, R0509);
 	R0509 = R0509 + R0004;
 }
 
@@ -152,9 +155,8 @@ define pcodeop __saturate;
 :mul3 R0004, R0509, R1620 is op1015=0x3E & R0004 & R0509; op2631=0x1F & R1620
 {
 	local res:8 = sext(R0509) * sext(R0004); # how do you indicate saturation?
-	$(SAT) = $(SAT) || $(OV);
+	saturate(res);
 	R1620 = res:4;
-	__saturate(R1620);
 }
 
 
@@ -173,18 +175,18 @@ define pcodeop __saturate;
 :satadd3 R0004, R0509, R1620 is op1015=0x3E & R0004 & R0509; op2631=0x10 & R1620
 {
 	set_general_flags_pos(R0509, R0004);
-	$(SAT) = $(SAT) || $(OV);
-	R1620 = R0509 + R0004;
-	__saturate(R1620);
+	res:8 = sext(R0509) + sext(R0004);
+	saturate(res);
+	R1620 = res:4;
 }
 
 # SATSUB3 reg1, reg2, reg3 - 111110rrrrrRRRRR|01000100000wwwww
 :satsub3 R0004, R0509, R1620 is op1015=0x3E & R0004 & R0509; op2631=0x11 & R1620
 {
 	set_general_flags_neg(R0509, R0004);
-	$(SAT) = $(SAT) || $(OV);
-	R1620 = R0509 - R0004;
-	__saturate(R1620);
+	res:8 = sext(R0509) - sext(R0004);
+	saturate(res);
+	R1620 = res:4;
 }
 
 
@@ -197,18 +199,17 @@ define pcodeop __saturate;
 :mac3 R0004, R0509, R1620 is op1015=0x3E & R0004 & R0509; op2631=0x1D & R1620
 {
 	local res:8 = sext(R1620) + sext(R0509) * sext(R0004); # how do you indicate saturation?
-	$(SAT) = $(SAT) || $(OV);
+	saturate(res);
 	R1620 = res:4;
-	__saturate(R1620);
+
 }
 
 # MACI imm16, reg1, reg2 - 110110rrrrrRRRRR|iiiiiiiiiiiiiiii
 :maci s1631, R0004, R0509 is op1015=0x36 & R0509 & R0004; s1631
 {
 	local res:8 = sext(R0509) + sext(R0004) * s1631; # how do you indicate saturation?
-	$(SAT) = $(SAT) || $(OV);
+	saturate(res);
 	R0509 = res:4;
-	__saturate(R0509);
 }
 
 # MACT3 reg1, reg2, reg3 - 111110rrrrrRRRRR|01110000000wwwww
@@ -217,9 +218,9 @@ define pcodeop __saturate;
 	local res:8 = sext(R0509) * sext(R0004); # how do you indicate saturation?
 	shift_right_arith(res, res, 32);
 	res = res + sext(R1620);
-	$(SAT) = $(SAT) || $(OV);
+	saturate(res);
 	R1620 = res:4;
-	__saturate(R1620);
+	
 }
 @endif
 
@@ -233,11 +234,10 @@ define pcodeop __saturate;
 {
 	local quot:4 = R0509 s/ R0004;
 	local mod:4 = R0509 s% R0004;
-	$(OV) = ((R0509 == 0x80000000 && R0004 == 0xFFFFFFFF) || R0004 == 0x0);
-	set_Z(R0509);
-	set_S(R0509);
-	r30 = mod;
 	R0509 = quot;
+	set_OV0_S_Z(R0509);
+	r30 = mod;
+	
 }
 
 # DIVU reg1, reg2 - 001011rrrrrRRRRR
@@ -245,9 +245,8 @@ define pcodeop __saturate;
 {
 	local quot:4 = R0509 / R0004;
 	local mod:4 = R0509 % R0004;
-	$(OV) = (R0004 == 0);
-	set_Z(R0509);
-	set_S(R0509);
-	r30 = mod;
 	R0509 = quot;
+	set_OV0_S_Z(R0509);
+	r30 = mod;
+	
 }

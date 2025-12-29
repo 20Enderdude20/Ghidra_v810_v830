@@ -6,7 +6,7 @@
 c0003: "v"	is op0003=0x0	{ tmp:1 = ($(OV)) == 1; 		export tmp; }
 c0003: "nv"	is op0003=0x8	{ tmp:1 = ($(OV)) == 0; 		export tmp; }
 c0003: "c"	is op0003=0x1	{ tmp:1 = ($(CY)) == 1; 		export tmp; }
-c0003: "nc"	is op0003=0x9	{ tmp:1 = ($(CY)) == 0; 		export tmp; }
+c0003: "nl"	is op0003=0x9	{ tmp:1 = ($(CY)) == 0; 		export tmp; }
 c0003: "e"	is op0003=0x2	{ tmp:1 = ($(Z)) == 1; 			export tmp; }
 c0003: "ne"	is op0003=0xA	{ tmp:1 = ($(Z)) == 0; 			export tmp; }
 c0003: "nh"	is op0003=0x3	{ tmp:1 = ($(CY) || $(Z)) == 1; 	export tmp; }
